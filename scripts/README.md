@@ -187,3 +187,12 @@ sum (table (bi$osm_polygons$building.levels))
     ## [1] 2
 
 Building levels are again useless, and there are no heights at all.
+
+Conclusion to that point:
+=========================
+
+OSM data are currently pretty useless, alas. Nevertheless the following points are likely very important:
+
+1.  That conclusion took about 10 minutes to develop and run the script;
+2.  That conclusion would certainly be different in different parts of the world (Germany has many more building heights), and the data will only get better everywhere no matter what, so:
+3.  This whole project will certainly develop a very future-safe way of attaining our end result, regardless of the detours we're going to have to take to get there in prototype form.
