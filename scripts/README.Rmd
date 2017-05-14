@@ -1,4 +1,4 @@
-# OSM building heights in Briston
+# OSM building heights in Bristol
 
 ```{r load}
 devtools::load_all ("../../osmdata", export_all = FALSE)
@@ -29,7 +29,7 @@ table (bb$osm_polygons$building.levels)
 sum (table (bb$osm_polygons$building.levels))
 ```
 
-## Commerical buildings
+## Commercial buildings
 
 ```{r load-bristol-buildings-com}
 bc <- opq ('Bristol UK') %>% 
@@ -42,12 +42,12 @@ names (bc$osm_polygons)
 table (bc$osm_polygons$building.levels)
 sum (table (bc$osm_polygons$building.levels))
 ```
-Slightly more bulidings with specified levels, but still not enough to be
-useful. And unforuntely only one building with `height` value:
+Slightly more buildings with specified levels, but still not enough to be
+useful. And unfortunately only one building with `height` value:
 ```{r}
 table (bc$osm_polygons$height)
 ```
-So unfortunately, heights of commerical buildings can also not be extracted.
+So unfortunately, heights of commercial buildings can also not be extracted.
 
 ## Industrial buildings
 
@@ -62,4 +62,4 @@ names (bi$osm_polygons)
 table (bi$osm_polygons$building.levels)
 sum (table (bi$osm_polygons$building.levels))
 ```
-Building levesl are again useless, and there are no heights at all.
+Building levels are again useless, and there are no heights at all.

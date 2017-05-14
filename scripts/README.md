@@ -1,4 +1,4 @@
-OSM building heights in Briston
+OSM building heights in Bristol
 ===============================
 
 ``` r
@@ -73,7 +73,7 @@ sum (table (bb$osm_polygons$building.levels))
 
     ## [1] 9
 
-Commerical buildings
+Commercial buildings
 --------------------
 
 ``` r
@@ -130,7 +130,7 @@ sum (table (bc$osm_polygons$building.levels))
 
     ## [1] 18
 
-Slightly more bulidings with specified levels, but still not enough to be useful. And unforuntely only one building with `height` value:
+Slightly more buildings with specified levels, but still not enough to be useful. And unfortunately only one building with `height` value:
 
 ``` r
 table (bc$osm_polygons$height)
@@ -140,7 +140,7 @@ table (bc$osm_polygons$height)
     ## 21 
     ##  1
 
-So unfortunately, heights of commerical buildings can also not be extracted.
+So unfortunately, heights of commercial buildings can also not be extracted.
 
 Industrial buildings
 --------------------
@@ -186,4 +186,4 @@ sum (table (bi$osm_polygons$building.levels))
 
     ## [1] 2
 
-Building levesl are again useless, and there are no heights at all.
+Building levels are again useless, and there are no heights at all.
