@@ -1,3 +1,6 @@
+OSM building heights in Briston
+===============================
+
 ``` r
 devtools::load_all ("../../osmdata", export_all = FALSE)
 ```
@@ -9,6 +12,9 @@ devtools::load_all ("../../osmdata", export_all = FALSE)
 ``` r
 library (magrittr)
 ```
+
+Resdiential buildings
+---------------------
 
 ``` r
 bb <- opq ('Bristol UK') %>% 
@@ -66,3 +72,118 @@ sum (table (bb$osm_polygons$building.levels))
 ```
 
     ## [1] 9
+
+Commerical buildings
+--------------------
+
+``` r
+bc <- opq ('Bristol UK') %>% 
+    add_feature (key = 'building', value = 'commercial') %>%
+    osmdata_sf ()
+```
+
+``` r
+dim (bc$osm_polygons)
+```
+
+    ## [1] 283  68
+
+``` r
+names (bc$osm_polygons)
+```
+
+    ##  [1] "osm_id"             "name"               "abandoned.building"
+    ##  [4] "addr.city"          "addr.country"       "addr.district"     
+    ##  [7] "addr.hamlet"        "addr.housename"     "addr.housenumber"  
+    ## [10] "addr.place"         "addr.postcode"      "addr.street"       
+    ## [13] "addr.suburb"        "addr.unit"          "alt_name"          
+    ## [16] "amenity"            "atm"                "building"          
+    ## [19] "building.levels"    "comment"            "contact.email"     
+    ## [22] "contact.phone"      "contact.website"    "cuisine"           
+    ## [25] "date_started"       "diet.vegetarian"    "email"             
+    ## [28] "facebook"           "fax"                "fhrs.id"           
+    ## [31] "fixme"              "food"               "height"            
+    ## [34] "historic"           "leisure"            "level"             
+    ## [37] "listed_status"      "loc_name"           "note"              
+    ## [40] "office"             "old_name"           "opening_hours"     
+    ## [43] "operator"           "owner"              "phone"             
+    ## [46] "phone.events"       "phone.reservation"  "phone.uk"          
+    ## [49] "postal_code"        "roof.levels"        "shop"              
+    ## [52] "smoking"            "source"             "source.addr"       
+    ## [55] "source.alt_name"    "source.outline"     "source.track"      
+    ## [58] "sport"              "start_date"         "storage"           
+    ## [61] "takeaway"           "tourism"            "twitter"           
+    ## [64] "website"            "wheelchair"         "wifi"              
+    ## [67] "wikipedia"          "geometry"
+
+``` r
+table (bc$osm_polygons$building.levels)
+```
+
+    ## 
+    ##  1 15  2  3  4  5  6  7 
+    ##  5  3  1  2  4  1  1  1
+
+``` r
+sum (table (bc$osm_polygons$building.levels))
+```
+
+    ## [1] 18
+
+Slightly more bulidings with specified levels, but still not enough to be useful. And unforuntely only one building with `height` value:
+
+``` r
+table (bc$osm_polygons$height)
+```
+
+    ## 
+    ## 21 
+    ##  1
+
+So unfortunately, heights of commerical buildings can also not be extracted.
+
+Industrial buildings
+--------------------
+
+``` r
+bi <- opq ('Bristol UK') %>% 
+    add_feature (key = 'building', value = 'industrial') %>%
+    osmdata_sf ()
+```
+
+``` r
+dim (bi$osm_polygons)
+```
+
+    ## [1] 631  30
+
+``` r
+names (bi$osm_polygons)
+```
+
+    ##  [1] "osm_id"           "name"             "addr.city"       
+    ##  [4] "addr.housename"   "addr.housenumber" "addr.place"      
+    ##  [7] "addr.postcode"    "addr.street"      "alt_name"        
+    ## [10] "building"         "building.levels"  "comment"         
+    ## [13] "construction"     "description"      "designation"     
+    ## [16] "ele"              "fixme"            "frequency"       
+    ## [19] "layer"            "man_made"         "old_name"        
+    ## [22] "owner"            "power"            "roof.levels"     
+    ## [25] "shop"             "source"           "source.outline"  
+    ## [28] "source.track"     "website"          "geometry"
+
+``` r
+table (bi$osm_polygons$building.levels)
+```
+
+    ## 
+    ##          1 2, 4, 6... 
+    ##          1          1
+
+``` r
+sum (table (bi$osm_polygons$building.levels))
+```
+
+    ## [1] 2
+
+Building levesl are again useless, and there are no heights at all.

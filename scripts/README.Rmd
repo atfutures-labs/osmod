@@ -1,9 +1,13 @@
+# OSM building heights in Briston
 
 ```{r load}
 devtools::load_all ("../../osmdata", export_all = FALSE)
 library (magrittr)
 ```
-```{r load-bristol-buildings}
+
+## Resdiential buildings
+
+```{r load-bristol-buildings-res}
 bb <- opq ('Bristol UK') %>% 
     add_feature (key = 'building', value = 'residential') %>%
     osmdata_sf ()
@@ -24,3 +28,38 @@ have this information, rendering it useless:
 table (bb$osm_polygons$building.levels)
 sum (table (bb$osm_polygons$building.levels))
 ```
+
+## Commerical buildings
+
+```{r load-bristol-buildings-com}
+bc <- opq ('Bristol UK') %>% 
+    add_feature (key = 'building', value = 'commercial') %>%
+    osmdata_sf ()
+```
+```{r}
+dim (bc$osm_polygons)
+names (bc$osm_polygons)
+table (bc$osm_polygons$building.levels)
+sum (table (bc$osm_polygons$building.levels))
+```
+Slightly more bulidings with specified levels, but still not enough to be
+useful. And unforuntely only one building with `height` value:
+```{r}
+table (bc$osm_polygons$height)
+```
+So unfortunately, heights of commerical buildings can also not be extracted.
+
+## Industrial buildings
+
+```{r load-bristol-buildings-ind}
+bi <- opq ('Bristol UK') %>% 
+    add_feature (key = 'building', value = 'industrial') %>%
+    osmdata_sf ()
+```
+```{r}
+dim (bi$osm_polygons)
+names (bi$osm_polygons)
+table (bi$osm_polygons$building.levels)
+sum (table (bi$osm_polygons$building.levels))
+```
+Building levesl are again useless, and there are no heights at all.
