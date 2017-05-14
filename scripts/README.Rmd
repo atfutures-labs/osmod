@@ -1,0 +1,26 @@
+
+```{r load}
+devtools::load_all ("../../osmdata", export_all = FALSE)
+library (magrittr)
+```
+```{r load-bristol-buildings}
+bb <- opq ('Bristol UK') %>% 
+    add_feature (key = 'building', value = 'residential') %>%
+    osmdata_sf ()
+```
+Only relevant objects are polygons, although there are also 3 multipolygons, but
+these only contain generic default info (name, address, geometry): 
+```{r}
+names (bb$osm_multipolygons)
+```
+In contrast,
+```{r}
+dim (bb$osm_polygons)
+names (bb$osm_polygons)
+```
+has `building.levels`. There are, however, only 9 out of 1,500 buildings that
+have this information, rendering it useless:
+```{r}
+table (bb$osm_polygons$building.levels)
+sum (table (bb$osm_polygons$building.levels))
+```
