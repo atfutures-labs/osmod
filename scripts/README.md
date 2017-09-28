@@ -1,11 +1,10 @@
+
 OSM building heights in Bristol
 ===============================
 
 ``` r
-devtools::load_all ("../../osmdata", export_all = FALSE)
+library(osmdata)
 ```
-
-    ## Loading osmdata
 
     ## Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
 
@@ -21,6 +20,8 @@ bb <- opq ('Bristol UK') %>%
     add_feature (key = 'building', value = 'residential') %>%
     osmdata_sf ()
 ```
+
+    ## add_feature() is deprecated; please use add_osm_feature()
 
 Only relevant objects are polygons, although there are also 3 multipolygons, but these only contain generic default info (name, address, geometry):
 
@@ -38,24 +39,25 @@ In contrast,
 dim (bb$osm_polygons)
 ```
 
-    ## [1] 1500   36
+    ## [1] 1502   37
 
 ``` r
 names (bb$osm_polygons)
 ```
 
-    ##  [1] "osm_id"              "name"                "addr.city"          
-    ##  [4] "addr.country"        "addr.district"       "addr.flats"         
-    ##  [7] "addr.housename"      "addr.housenumber"    "addr.postcode"      
-    ## [10] "addr.street"         "addr.suburb"         "amenity"            
-    ## [13] "brand"               "building"            "building.flats"     
-    ## [16] "building.levels"     "building.use"        "created_by"         
+    ##  [1] "osm_id"              "name"                "FIXME"              
+    ##  [4] "addr.city"           "addr.country"        "addr.district"      
+    ##  [7] "addr.flats"          "addr.housename"      "addr.housenumber"   
+    ## [10] "addr.postcode"       "addr.street"         "addr.suburb"        
+    ## [13] "amenity"             "brand"               "building"           
+    ## [16] "building.flats"      "building.levels"     "building.use"       
     ## [19] "cuisine"             "fhrs.id"             "layer"              
     ## [22] "note"                "operator"            "shop"               
     ## [25] "social_facility"     "social_facility.for" "source"             
     ## [28] "source.addr"         "source.address"      "source.outline"     
     ## [31] "source.postcode"     "takeaway"            "website"            
-    ## [34] "wheelchair"          "wikipedia"           "geometry"
+    ## [34] "wheelchair"          "wikidata"            "wikipedia"          
+    ## [37] "geometry"
 
 has `building.levels`. There are, however, only 9 out of 1,500 buildings that have this information, rendering it useless:
 
@@ -65,13 +67,13 @@ table (bb$osm_polygons$building.levels)
 
     ## 
     ## 1 2 3 5 
-    ## 1 4 3 1
+    ## 1 4 3 2
 
 ``` r
 sum (table (bb$osm_polygons$building.levels))
 ```
 
-    ## [1] 9
+    ## [1] 10
 
 Commercial buildings
 --------------------
@@ -82,11 +84,13 @@ bc <- opq ('Bristol UK') %>%
     osmdata_sf ()
 ```
 
+    ## add_feature() is deprecated; please use add_osm_feature()
+
 ``` r
 dim (bc$osm_polygons)
 ```
 
-    ## [1] 283  68
+    ## [1] 303  72
 
 ``` r
 names (bc$osm_polygons)
@@ -100,21 +104,22 @@ names (bc$osm_polygons)
     ## [16] "amenity"            "atm"                "building"          
     ## [19] "building.levels"    "comment"            "contact.email"     
     ## [22] "contact.phone"      "contact.website"    "cuisine"           
-    ## [25] "date_started"       "diet.vegetarian"    "email"             
-    ## [28] "facebook"           "fax"                "fhrs.id"           
-    ## [31] "fixme"              "food"               "height"            
-    ## [34] "historic"           "leisure"            "level"             
-    ## [37] "listed_status"      "loc_name"           "note"              
-    ## [40] "office"             "old_name"           "opening_hours"     
-    ## [43] "operator"           "owner"              "phone"             
-    ## [46] "phone.events"       "phone.reservation"  "phone.uk"          
-    ## [49] "postal_code"        "roof.levels"        "shop"              
-    ## [52] "smoking"            "source"             "source.addr"       
-    ## [55] "source.alt_name"    "source.outline"     "source.track"      
-    ## [58] "sport"              "start_date"         "storage"           
-    ## [61] "takeaway"           "tourism"            "twitter"           
-    ## [64] "website"            "wheelchair"         "wifi"              
-    ## [67] "wikipedia"          "geometry"
+    ## [25] "date_started"       "description"        "diet.vegetarian"   
+    ## [28] "disused.amenity"    "drink"              "email"             
+    ## [31] "facebook"           "fax"                "fhrs.id"           
+    ## [34] "fixme"              "food"               "height"            
+    ## [37] "historic"           "layer"              "leisure"           
+    ## [40] "level"              "listed_status"      "loc_name"          
+    ## [43] "note"               "office"             "old_name"          
+    ## [46] "opening_hours"      "operator"           "owner"             
+    ## [49] "phone"              "phone.events"       "phone.reservation" 
+    ## [52] "phone.uk"           "postal_code"        "roof.levels"       
+    ## [55] "shop"               "smoking"            "source"            
+    ## [58] "source.addr"        "source.alt_name"    "source.outline"    
+    ## [61] "source.track"       "sport"              "start_date"        
+    ## [64] "storage"            "takeaway"           "tourism"           
+    ## [67] "twitter"            "website"            "wheelchair"        
+    ## [70] "wifi"               "wikipedia"          "geometry"
 
 ``` r
 table (bc$osm_polygons$building.levels)
@@ -122,13 +127,13 @@ table (bc$osm_polygons$building.levels)
 
     ## 
     ##  1 15  2  3  4  5  6  7 
-    ##  5  3  1  2  4  1  1  1
+    ##  4  3  1  9  8  2  3  7
 
 ``` r
 sum (table (bc$osm_polygons$building.levels))
 ```
 
-    ## [1] 18
+    ## [1] 37
 
 Slightly more buildings with specified levels, but still not enough to be useful. And unfortunately only one building with `height` value:
 
@@ -151,11 +156,13 @@ bi <- opq ('Bristol UK') %>%
     osmdata_sf ()
 ```
 
+    ## add_feature() is deprecated; please use add_osm_feature()
+
 ``` r
 dim (bi$osm_polygons)
 ```
 
-    ## [1] 631  30
+    ## [1] 632  30
 
 ``` r
 names (bi$osm_polygons)
@@ -177,14 +184,14 @@ table (bi$osm_polygons$building.levels)
 ```
 
     ## 
-    ##          1 2, 4, 6... 
-    ##          1          1
+    ##          1          2 2, 4, 6...          3 
+    ##          1          1          1          1
 
 ``` r
 sum (table (bi$osm_polygons$building.levels))
 ```
 
-    ## [1] 2
+    ## [1] 4
 
 Building levels are again useless, and there are no heights at all.
 

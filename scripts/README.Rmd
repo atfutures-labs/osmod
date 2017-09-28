@@ -1,7 +1,12 @@
+---
+output: github_document
+---
+
+
 # OSM building heights in Bristol
 
 ```{r load}
-devtools::load_all ("../../osmdata", export_all = FALSE)
+library(osmdata)
 library (magrittr)
 ```
 
