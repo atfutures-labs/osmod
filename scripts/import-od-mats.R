@@ -1,6 +1,8 @@
 library(sf)
 library(dplyr)
 library(tmap)
+library(devtools)
+devtools::install_github("ropensci/stplanr")
 # am_commute = readr::read_csv("/tmp/AM_COM.csv", col_names = FALSE)
 # am_non_commute = readr::read_csv("/tmp/AM_NCOM.csv", col_names = FALSE)
 # unzip("/tmp/LoHAM_5194_T1_Cyn.zip", exdir = "/tmp/")
