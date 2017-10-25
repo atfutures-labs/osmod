@@ -7,7 +7,12 @@ library(tmap)
 # z_tfl = sf::read_sf("/tmp/LoHAM_5194_T1_Cyn.shp")
 # saveRDS(am_commute, "~/gmost/cyoddata/am_commute.Rds")
 # saveRDS(am_non_commute, "~/gmost/cyoddata/am_non_commute.Rds")
-# saveRDS(z_tfl, "~/gmost/cyoddata/z_tfl.Rds")
+# saveRDS(z_tfl_orig, "~/gmost/cyoddata/z_tfl.Rds")
+# if(object.size(z_tfl_orig) >= 32261664) {
+#   z_tfl_orig = rmapshaper::ms_simplify(z_tfl_orig, keep = 0.01)
+# }
+# saveRDS(z_tfl_orig, "~/gmost/cyoddata/z_tfl.Rds")
+
 z_tfl_orig = readRDS("~/gmost/cyoddata/z_tfl.Rds")
 am_commute = readRDS("~/gmost/cyoddata/am_commute.Rds")
 am_non_commute = readRDS("~/gmost/cyoddata/am_non_commute.Rds")
